@@ -4,8 +4,8 @@ import { AuthService } from './../auth/auth.service';
 import { throwError as ObservableThrowError, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { ENV } from './env.config';
-import { EventModel } from './models/event.model';
-import { RsvpModel } from './models/rsvp.model';
+import { ProductModel } from './models/product.model';
+import { OrderModel } from './models/order.model';
 
 @Injectable()
 export class ApiService {
@@ -18,19 +18,19 @@ export class ApiService {
     return `Bearer ${this.auth.accessToken}`;
   }
 
-  // GET list of public, future events
-  getEvents$(): Observable<EventModel[]> {
+  // GET list of public, future products
+  getProducts$(): Observable<ProductModel[]> {
     return this.http
-      .get<EventModel[]>(`${ENV.BASE_API}events`)
+      .get<ProductModel[]>(`${ENV.BASE_API}products`)
       .pipe(
         catchError((error) => this._handleError(error))
       );
   }
 
-  // GET all events - private and public (admin only)
-  getAdminEvents$(): Observable<EventModel[]> {
+  // GET all products - private and public (admin only)
+  getAdminProducts$(): Observable<ProductModel[]> {
     return this.http
-      .get<EventModel[]>(`${ENV.BASE_API}events/admin`, {
+      .get<ProductModel[]>(`${ENV.BASE_API}products/admin`, {
         headers: new HttpHeaders().set('Authorization', this._authHeader)
       })
       .pipe(
@@ -38,10 +38,10 @@ export class ApiService {
       );
   }
 
-  // GET an event by ID (login required)
-  getEventById$(id: string): Observable<EventModel> {
+  // GET an product by ID (login required)
+  getProductById$(id: string): Observable<ProductModel> {
     return this.http
-      .get<EventModel>(`${ENV.BASE_API}event/${id}`, {
+      .get<ProductModel>(`${ENV.BASE_API}product/${id}`, {
         headers: new HttpHeaders().set('Authorization', this._authHeader)
       })
       .pipe(
@@ -49,10 +49,10 @@ export class ApiService {
       );
   }
 
-  // GET RSVPs by event ID (login required)
-  getRsvpsByEventId$(eventId: string): Observable<RsvpModel[]> {
+  // GET Orders by product ID (login required)
+  getOrdersByProductId$(productId: string): Observable<OrderModel[]> {
     return this.http
-      .get<RsvpModel[]>(`${ENV.BASE_API}event/${eventId}/rsvps`, {
+      .get<OrderModel[]>(`${ENV.BASE_API}product/${productId}/orders`, {
         headers: new HttpHeaders().set('Authorization', this._authHeader)
       })
       .pipe(
@@ -60,10 +60,10 @@ export class ApiService {
       );
   }
 
-  // POST new event (admin only)
-  postEvent$(event: EventModel): Observable<EventModel> {
+  // POST new product (admin only)
+  postProduct$(product: ProductModel): Observable<ProductModel> {
     return this.http
-      .post<EventModel>(`${ENV.BASE_API}event/new`, event, {
+      .post<ProductModel>(`${ENV.BASE_API}product/new`, product, {
         headers: new HttpHeaders().set('Authorization', this._authHeader)
       })
       .pipe(
@@ -71,10 +71,10 @@ export class ApiService {
       );
   }
 
-  // PUT existing event (admin only)
-  editEvent$(id: string, event: EventModel): Observable<EventModel> {
+  // PUT existing product (admin only)
+  editProduct$(id: string, product: ProductModel): Observable<ProductModel> {
     return this.http
-      .put<EventModel>(`${ENV.BASE_API}event/${id}`, event, {
+      .put<ProductModel>(`${ENV.BASE_API}product/${id}`, product, {
         headers: new HttpHeaders().set('Authorization', this._authHeader)
       })
       .pipe(
@@ -82,10 +82,10 @@ export class ApiService {
       );
   }
 
-  // DELETE existing event and all associated RSVPs (admin only)
-  deleteEvent$(id: string): Observable<any> {
+  // DELETE existing product and all associated Orders (admin only)
+  deleteProduct$(id: string): Observable<any> {
     return this.http
-      .delete(`${ENV.BASE_API}event/${id}`, {
+      .delete(`${ENV.BASE_API}product/${id}`, {
         headers: new HttpHeaders().set('Authorization', this._authHeader)
       })
       .pipe(
@@ -93,10 +93,10 @@ export class ApiService {
       );
   }
 
-  // GET all events a specific user has RSVPed to (login required)
-  getUserEvents$(userId: string): Observable<EventModel[]> {
+  // GET all products a specific user has Ordered to (login required)
+  getUserProducts$(userId: string): Observable<ProductModel[]> {
     return this.http
-      .get<EventModel[]>(`${ENV.BASE_API}events/${userId}`, {
+      .get<ProductModel[]>(`${ENV.BASE_API}products/${userId}`, {
         headers: new HttpHeaders().set('Authorization', this._authHeader)
       })
       .pipe(
@@ -104,10 +104,10 @@ export class ApiService {
       );
   }
 
-  // POST new RSVP (login required)
-  postRsvp$(rsvp: RsvpModel): Observable<RsvpModel> {
+  // POST new Order (login required)
+  postOrder$(order: OrderModel): Observable<OrderModel> {
     return this.http
-      .post<RsvpModel>(`${ENV.BASE_API}rsvp/new`, rsvp, {
+      .post<OrderModel>(`${ENV.BASE_API}order/new`, order, {
         headers: new HttpHeaders().set('Authorization', this._authHeader)
       })
       .pipe(
@@ -115,10 +115,10 @@ export class ApiService {
       );
   }
 
-  // PUT existing RSVP (login required)
-  editRsvp$(id: string, rsvp: RsvpModel): Observable<RsvpModel> {
+  // PUT existing Order (login required)
+  editOrder$(id: string, order: OrderModel): Observable<OrderModel> {
     return this.http
-      .put(`${ENV.BASE_API}rsvp/${id}`, rsvp, {
+      .put(`${ENV.BASE_API}order/${id}`, order, {
         headers: new HttpHeaders().set('Authorization', this._authHeader)
       })
       .pipe(

@@ -1,0 +1,30 @@
+<p class="lead">
+  You are deleting the "<strong [innerHTML]="product.title"></strong>" product.
+</p>
+
+<p class="text-danger">
+  Deleting this product will also remove all associated Orders. Please proceed with caution!
+</p>
+
+<div class="form-group">
+  <label for="deleteProduct">Confirm product title:</label>
+  <input
+    type="text"
+    id="deleteProduct"
+    class="form-control"
+    [(ngModel)]="confirmDelete">
+</div>
+
+<!-- Delete button -->
+<p>
+  <button
+    class="btn btn-danger"
+    (click)="removeProduct()"
+    [disabled]="confirmDelete !== product.title || submitting">Delete Product</button>
+  <app-submitting *ngIf="submitting"></app-submitting>
+</p>
+
+<!-- Error deleting product -->
+<p *ngIf="error" class="alert alert-danger">
+  <strong>Oops!</strong> There was an error deleting this product. Please try again.
+</p>

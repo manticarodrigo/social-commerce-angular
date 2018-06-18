@@ -2,18 +2,18 @@
 <app-loading *ngIf="loading"></app-loading>
 
 <ng-template [ngIf]="utils.isLoaded(loading)">
-  <p class="lead">Welcome, {{ auth.userProfile?.name }}! You can create and administer events below.</p>
+  <p class="lead">Welcome, {{ auth.userProfile?.name }}! You can create and administer products below.</p>
 
   <p>
     <a
       class="btn btn-success btn-block"
-      routerLink="/admin/event/new">+ Create New Event</a>
+      routerLink="/admin/product/new">+ Create New Product</a>
   </p>
 
-  <!-- Events -->
-  <ng-template [ngIf]="eventList">
-    <ng-template [ngIf]="eventList.length">
-      <!-- Search events -->
+  <!-- Products -->
+  <ng-template [ngIf]="productList">
+    <ng-template [ngIf]="productList.length">
+      <!-- Search products -->
       <label class="sr-only" for="search">Search</label>
       <div class="search input-group mb-3">
         <div class="input-group-prepend">
@@ -24,7 +24,7 @@
           type="text"
           class="form-control"
           [(ngModel)]="query"
-          (keyup)="searchEvents()" />
+          (keyup)="searchProducts()" />
         <span class="input-group-append">
           <button
             class="btn btn-danger"
@@ -34,57 +34,57 @@
       </div>
 
       <!-- No search results -->
-      <p *ngIf="fs.noSearchResults(filteredEvents, query)" class="alert alert-warning">
-        No events found for <em class="text-danger">{{ query }}</em>, sorry!
+      <p *ngIf="fs.noSearchResults(filteredProducts, query)" class="alert alert-warning">
+        No products found for <em class="text-danger">{{ query }}</em>, sorry!
       </p>
 
-      <!-- Events listing -->
+      <!-- Products listing -->
       <section class="list-group">
         <div
-          *ngFor="let event of fs.orderByDate(filteredEvents, 'startDatetime')"
+          *ngFor="let product of fs.orderByDate(filteredProducts, 'startDatetime')"
           class="list-group-item list-group-item-action flex-column align-items-start">
           <div class="d-flex w-100 justify-content-between">
-            <a [routerLink]="['/event', event._id]">
-              <h5 class="mb-1" [innerHTML]="event.title"></h5>
+            <a [routerLink]="['/product', product._id]">
+              <h5 class="mb-1" [innerHTML]="product.title"></h5>
             </a>
-            <div class="event-icons">
+            <div class="product-icons">
               <img
-                *ngIf="!event.viewPublic"
-                class="event-icon"
+                *ngIf="!product.viewPublic"
+                class="product-icon"
                 title="Private"
                 src="/assets/images/eye.svg">
               <img
-                *ngIf="utils.eventPast(event.endDatetime)"
-                class="event-icon"
-                title="Event is over"
+                *ngIf="utils.productPast(product.endDatetime)"
+                class="product-icon"
+                title="Product is over"
                 src="/assets/images/calendar.svg">
             </div>
           </div>
           <p class="mb-1">
-            <strong>Date:</strong> {{ utils.eventDates(event.startDatetime, event.endDatetime) }}
+            <strong>Date:</strong> {{ utils.productDates(product.startDatetime, product.endDatetime) }}
           </p>
           <p class="mb-1">
             <a
               class="btn btn-info btn-sm mr-1"
-              [routerLink]="['/admin/event/update', event._id]">Edit</a>
+              [routerLink]="['/admin/product/update', product._id]">Edit</a>
             <a
               class="btn btn-danger btn-sm"
-              [routerLink]="['/admin/event/update', event._id]"
+              [routerLink]="['/admin/product/update', product._id]"
               [queryParams]="{tab: 'delete'}">Delete</a>
           </p>
         </div>
       </section>
     </ng-template>
 
-    <!-- No events available -->
-    <p *ngIf="!eventList.length" class="alert alert-info">
-      No events have been created yet.
+    <!-- No products available -->
+    <p *ngIf="!productList.length" class="alert alert-info">
+      No products have been created yet.
     </p>
   </ng-template>
 
-  <!-- Error loading events -->
+  <!-- Error loading products -->
   <p *ngIf="error" class="alert alert-danger">
-    <strong>Oops!</strong> There was an error retrieving event data.
+    <strong>Oops!</strong> There was an error retrieving product data.
   </p>
 
 </ng-template>

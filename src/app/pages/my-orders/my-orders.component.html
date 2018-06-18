@@ -1,0 +1,42 @@
+<h1 class="text-center">{{ pageTitle }}</h1>
+<p class="lead" *ngIf="auth.loggedIn && auth.userProfile">
+  Hello, <strong [innerHTML]="auth.userProfile.name"></strong>!
+  <ng-template [ngIf]="auth.isAdmin">
+    You may <a routerLink="/admin">create and administer products</a>.
+  </ng-template>
+</p>
+
+<app-loading *ngIf="loading"></app-loading>
+
+<ng-template [ngIf]="utils.isLoaded(loading)">
+  <ng-template [ngIf]="productList">
+    <!-- Product list retrieved but no Orders yet -->
+    <p *ngIf="!productList.length" class="lead">
+      You have not Ordered to any products yet. Check out the <a routerLink="/">homepage</a> to see a list of upcoming products.
+    </p>
+
+    <ng-template [ngIf]="productList.length">
+      <p class="lead">You have <strong>Ordered</strong> for the following upcoming products:</p>
+
+      <!-- Products listing -->
+      <div class="list-group">
+        <a
+          *ngFor="let product of fs.orderByDate(productList, 'startDatetime')"
+          [routerLink]="['/product', product._id]"
+          [queryParams]="{ tab: 'order' }"
+          class="list-group-item list-group-item-action flex-column align-items-start">
+          <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1" [innerHTML]="product.title"></h5>
+            <small>{{ utils.productDates(product.startDatetime, product.endDatetime) }}</small>
+          </div>
+          <small class="mb-1">Click to view or update this Order</small>
+        </a>
+      </div>
+    </ng-template>
+  </ng-template>
+
+  <!-- Error loading products -->
+  <p *ngIf="error" class="alert alert-danger">
+    <strong>Oops!</strong> There was an error getting your Order data.
+  </p>
+</ng-template>

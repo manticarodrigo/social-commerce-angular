@@ -6,8 +6,8 @@
 
 const jwt = require('express-jwt');
 const jwks = require('jwks-rsa');
-const Event = require('./models/Event');
-const Rsvp = require('./models/Rsvp');
+const Product = require('./models/Product');
+const Order = require('./models/Order');
 
 /*
  |--------------------------------------
@@ -45,118 +45,118 @@ module.exports = function(app, config) {
  |--------------------------------------
  */
 
-  const _eventListProjection = 'title startDatetime endDatetime viewPublic';
+  const _productListProjection = 'title startDatetime endDatetime viewPublic';
 
   // GET API root
   app.get('/api/', (req, res) => {
     res.send('API works');
   });
 
-  // GET list of public events starting in the future
-  app.get('/api/events', (req, res) => {
-    Event.find({viewPublic: true, startDatetime: { $gte: new Date() }},
-      _eventListProjection, (err, events) => {
-        let eventsArr = [];
+  // GET list of public products starting in the future
+  app.get('/api/products', (req, res) => {
+    Product.find({viewPublic: true, startDatetime: { $gte: new Date() }},
+      _productListProjection, (err, products) => {
+        let productsArr = [];
         if (err) {
           return res.status(500).send({message: err.message});
         }
-        if (events) {
-          events.forEach(event => {
-            eventsArr.push(event);
+        if (products) {
+          products.forEach(product => {
+            productsArr.push(product);
           });
         }
-        res.send(eventsArr);
+        res.send(productsArr);
       }
     );
   });
 
-  // GET list of all events, public and private (admin only)
-  app.get('/api/events/admin', jwtCheck, adminCheck, (req, res) => {
-    Event.find({}, _eventListProjection, (err, events) => {
-        let eventsArr = [];
+  // GET list of all products, public and private (admin only)
+  app.get('/api/products/admin', jwtCheck, adminCheck, (req, res) => {
+    Product.find({}, _productListProjection, (err, products) => {
+        let productsArr = [];
         if (err) {
           return res.status(500).send({message: err.message});
         }
-        if (events) {
-          events.forEach(event => {
-            eventsArr.push(event);
+        if (products) {
+          products.forEach(product => {
+            productsArr.push(product);
           });
         }
-        res.send(eventsArr);
+        res.send(productsArr);
       }
     );
   });
 
-  // GET event by event ID
-  app.get('/api/event/:id', jwtCheck, (req, res) => {
-    Event.findById(req.params.id, (err, event) => {
+  // GET product by product ID
+  app.get('/api/product/:id', jwtCheck, (req, res) => {
+    Product.findById(req.params.id, (err, product) => {
       if (err) {
         return res.status(500).send({message: err.message});
       }
-      if (!event) {
-        return res.status(400).send({message: 'Event not found.'});
+      if (!product) {
+        return res.status(400).send({message: 'Product not found.'});
       }
-      res.send(event);
+      res.send(product);
     });
   });
 
-  // GET RSVPs by event ID
-  app.get('/api/event/:eventId/rsvps', jwtCheck, (req, res) => {
-    Rsvp.find({eventId: req.params.eventId}, (err, rsvps) => {
-      let rsvpsArr = [];
+  // GET Orders by product ID
+  app.get('/api/product/:productId/orders', jwtCheck, (req, res) => {
+    Order.find({productId: req.params.productId}, (err, orders) => {
+      let ordersArr = [];
       if (err) {
         return res.status(500).send({message: err.message});
       }
-      if (rsvps) {
-        rsvps.forEach(rsvp => {
-          rsvpsArr.push(rsvp);
+      if (orders) {
+        orders.forEach(order => {
+          ordersArr.push(order);
         });
       }
-      res.send(rsvpsArr);
+      res.send(ordersArr);
     });
   });
 
-  // GET list of upcoming events user has RSVPed to
-  app.get('/api/events/:userId', jwtCheck, (req, res) => {
-    Rsvp.find({userId: req.params.userId}, 'eventId', (err, rsvps) => {
-      const _eventIdsArr = rsvps.map(rsvp => rsvp.eventId);
-      const _rsvpEventsProjection = 'title startDatetime endDatetime';
-      let eventsArr = [];
+  // GET list of upcoming products user has Ordered to
+  app.get('/api/products/:userId', jwtCheck, (req, res) => {
+    Order.find({userId: req.params.userId}, 'productId', (err, orders) => {
+      const _productIdsArr = orders.map(order => order.productId);
+      const _orderProductsProjection = 'title startDatetime endDatetime';
+      let productsArr = [];
 
       if (err) {
         return res.status(500).send({message: err.message});
       }
-      if (rsvps) {
-        Event.find(
-          {_id: {$in: _eventIdsArr}, startDatetime: { $gte: new Date() }},
-          _rsvpEventsProjection, (err, events) => {
+      if (orders) {
+        Product.find(
+          {_id: {$in: _productIdsArr}, startDatetime: { $gte: new Date() }},
+          _orderProductsProjection, (err, products) => {
           if (err) {
             return res.status(500).send({message: err.message});
           }
-          if (events) {
-            events.forEach(event => {
-              eventsArr.push(event);
+          if (products) {
+            products.forEach(product => {
+              productsArr.push(product);
             });
           }
-          res.send(eventsArr);
+          res.send(productsArr);
         });
       }
     });
   });
 
-  // POST a new event
-  app.post('/api/event/new', jwtCheck, adminCheck, (req, res) => {
-    Event.findOne({
+  // POST a new product
+  app.post('/api/product/new', jwtCheck, adminCheck, (req, res) => {
+    Product.findOne({
       title: req.body.title,
       location: req.body.location,
-      startDatetime: req.body.startDatetime}, (err, existingEvent) => {
+      startDatetime: req.body.startDatetime}, (err, existingProduct) => {
       if (err) {
         return res.status(500).send({message: err.message});
       }
-      if (existingEvent) {
-        return res.status(409).send({message: 'You have already created an event with this title, location, and start date/time.'});
+      if (existingProduct) {
+        return res.status(409).send({message: 'You have already created an product with this title, location, and start date/time.'});
       }
-      const event = new Event({
+      const product = new Product({
         title: req.body.title,
         location: req.body.location,
         startDatetime: req.body.startDatetime,
@@ -164,113 +164,113 @@ module.exports = function(app, config) {
         description: req.body.description,
         viewPublic: req.body.viewPublic
       });
-      event.save((err) => {
+      product.save((err) => {
         if (err) {
           return res.status(500).send({message: err.message});
         }
-        res.send(event);
+        res.send(product);
       });
     });
   });
 
-  // PUT (edit) an existing event
-  app.put('/api/event/:id', jwtCheck, adminCheck, (req, res) => {
-    Event.findById(req.params.id, (err, event) => {
+  // PUT (edit) an existing product
+  app.put('/api/product/:id', jwtCheck, adminCheck, (req, res) => {
+    Product.findById(req.params.id, (err, product) => {
       if (err) {
         return res.status(500).send({message: err.message});
       }
-      if (!event) {
-        return res.status(400).send({message: 'Event not found.'});
+      if (!product) {
+        return res.status(400).send({message: 'Product not found.'});
       }
-      event.title = req.body.title;
-      event.location = req.body.location;
-      event.startDatetime = req.body.startDatetime;
-      event.endDatetime = req.body.endDatetime;
-      event.viewPublic = req.body.viewPublic;
-      event.description = req.body.description;
+      product.title = req.body.title;
+      product.location = req.body.location;
+      product.startDatetime = req.body.startDatetime;
+      product.endDatetime = req.body.endDatetime;
+      product.viewPublic = req.body.viewPublic;
+      product.description = req.body.description;
 
-      event.save(err => {
+      product.save(err => {
         if (err) {
           return res.status(500).send({message: err.message});
         }
-        res.send(event);
+        res.send(product);
       });
     });
   });
 
-  // DELETE an event and all associated RSVPs
-  app.delete('/api/event/:id', jwtCheck, adminCheck, (req, res) => {
-    Event.findById(req.params.id, (err, event) => {
+  // DELETE an product and all associated Orders
+  app.delete('/api/product/:id', jwtCheck, adminCheck, (req, res) => {
+    Product.findById(req.params.id, (err, product) => {
       if (err) {
         return res.status(500).send({message: err.message});
       }
-      if (!event) {
-        return res.status(400).send({message: 'Event not found.'});
+      if (!product) {
+        return res.status(400).send({message: 'Product not found.'});
       }
-      Rsvp.find({eventId: req.params.id}, (err, rsvps) => {
-        if (rsvps) {
-          rsvps.forEach(rsvp => {
-            rsvp.remove();
+      Order.find({productId: req.params.id}, (err, orders) => {
+        if (orders) {
+          orders.forEach(order => {
+            order.remove();
           });
         }
-        event.remove(err => {
+        product.remove(err => {
           if (err) {
             return res.status(500).send({message: err.message});
           }
-          res.status(200).send({message: 'Event and RSVPs successfully deleted.'});
+          res.status(200).send({message: 'Product and Orders successfully deleted.'});
         });
       });
     });
   });
 
-  // POST a new RSVP
-  app.post('/api/rsvp/new', jwtCheck, (req, res) => {
-    Rsvp.findOne({eventId: req.body.eventId, userId: req.body.userId}, (err, existingRsvp) => {
+  // POST a new Order
+  app.post('/api/order/new', jwtCheck, (req, res) => {
+    Order.findOne({productId: req.body.productId, userId: req.body.userId}, (err, existingOrder) => {
       if (err) {
         return res.status(500).send({message: err.message});
       }
-      if (existingRsvp) {
-        return res.status(409).send({message: 'You have already RSVPed to this event.'});
+      if (existingOrder) {
+        return res.status(409).send({message: 'You have already Ordered to this product.'});
       }
-      const rsvp = new Rsvp({
+      const order = new Order({
         userId: req.body.userId,
         name: req.body.name,
-        eventId: req.body.eventId,
+        productId: req.body.productId,
         attending: req.body.attending,
         guests: req.body.guests,
         comments: req.body.comments
       });
-      rsvp.save((err) => {
+      order.save((err) => {
         if (err) {
           return res.status(500).send({message: err.message});
         }
-        res.send(rsvp);
+        res.send(order);
       });
     });
   });
 
-  // PUT (edit) an existing RSVP
-  app.put('/api/rsvp/:id', jwtCheck, (req, res) => {
-    Rsvp.findById(req.params.id, (err, rsvp) => {
+  // PUT (edit) an existing Order
+  app.put('/api/order/:id', jwtCheck, (req, res) => {
+    Order.findById(req.params.id, (err, order) => {
       if (err) {
         return res.status(500).send({message: err.message});
       }
-      if (!rsvp) {
-        return res.status(400).send({message: 'RSVP not found.'});
+      if (!order) {
+        return res.status(400).send({message: 'Order not found.'});
       }
-      if (rsvp.userId !== req.user.sub) {
-        return res.status(401).send({message: 'You cannot edit someone else\'s RSVP.'});
+      if (order.userId !== req.user.sub) {
+        return res.status(401).send({message: 'You cannot edit someone else\'s Order.'});
       }
-      rsvp.name = req.body.name;
-      rsvp.attending = req.body.attending;
-      rsvp.guests = req.body.guests;
-      rsvp.comments = req.body.comments;
+      order.name = req.body.name;
+      order.attending = req.body.attending;
+      order.guests = req.body.guests;
+      order.comments = req.body.comments;
 
-      rsvp.save(err => {
+      order.save(err => {
         if (err) {
           return res.status(500).send({message: err.message});
         }
-        res.send(rsvp);
+        res.send(order);
       });
     });
   });

@@ -11,7 +11,7 @@ export class FilterSortService {
     // (assumes same-shape for all array items)
     // Necessary because some arrays passed in may have
     // models that don't match {[key: string]: any}[]
-    // This check prevents uncaught reference errors
+    // This check prproducts uncaught reference errors
     const item0 = array[0];
     const check = !!(array.length && item0 !== null && Object.prototype.toString.call(item0) === '[object Object]');
     return check;

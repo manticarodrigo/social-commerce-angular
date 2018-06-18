@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { AdminComponent } from './admin.component';
-import { CreateEventComponent } from './create-event/create-event.component';
-import { UpdateEventComponent } from './update-event/update-event.component';
+import { CreateProductComponent } from './create-product/create-product.component';
+import { UpdateProductComponent } from './update-product/update-product.component';
 
 export const ADMIN_ROUTES: Routes = [
   {
@@ -9,11 +9,11 @@ export const ADMIN_ROUTES: Routes = [
     component: AdminComponent,
   },
   {
-    path: 'event/new',
-    component: CreateEventComponent
+    path: 'product/new',
+    component: CreateProductComponent
   },
   {
-    path: 'event/update/:id',
-    component: UpdateEventComponent
+    path: 'product/update/:id',
+    component: UpdateProductComponent
   }
 ];

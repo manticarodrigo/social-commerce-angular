@@ -6,7 +6,7 @@ import { AdminGuard } from './auth/admin.guard';
 // Page components
 import { HomeComponent } from './pages/home/home.component';
 import { CallbackComponent } from './pages/callback/callback.component';
-import { MyRsvpsComponent } from './pages/my-rsvps/my-rsvps.component';
+import { MyOrdersComponent } from './pages/my-orders/my-orders.component';
 
 const routes: Routes = [
   {
@@ -18,15 +18,15 @@ const routes: Routes = [
     component: CallbackComponent
   },
   {
-    path: 'event/:id',
-    loadChildren: './pages/event/event.module#EventModule',
+    path: 'product/:id',
+    loadChildren: './pages/product/product.module#ProductModule',
     canActivate: [
       AuthGuard
     ]
   },
   {
-    path: 'my-rsvps',
-    component: MyRsvpsComponent,
+    path: 'my-orders',
+    component: MyOrdersComponent,
     canActivate: [
       AuthGuard
     ]
