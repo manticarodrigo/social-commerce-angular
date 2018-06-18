@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { fromProduct } from 'rxjs';
+import { fromEvent } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
 @Component({
@@ -15,7 +15,7 @@ export class AppComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    fromProduct(window, 'resize')
+    fromEvent(window, 'resize')
       .pipe(
         debounceTime(200)
       )
