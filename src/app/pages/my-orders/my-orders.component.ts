@@ -8,41 +8,46 @@ import { Subscription } from 'rxjs';
 import { ProductModel } from './../../core/models/product.model';
 
 @Component({
-  selector: 'app-admin',
-  templateUrl: './admin.component.html',
-  styleUrls: ['./admin.component.scss']
+  selector: 'app-my-orders',
+  templateUrl: './my-orders.component.html',
+  styleUrls: ['./my-orders.component.scss']
 })
-export class AdminComponent implements OnInit, OnDestroy {
-  pageTitle = 'Admin';
+export class MyOrdersComponent implements OnInit, OnDestroy {
+  pageTitle = 'My Orders';
   loggedInSub: Subscription;
-  productsSub: Subscription;
+  productListSub: Subscription;
   productList: ProductModel[];
-  filteredProducts: ProductModel[];
   loading: boolean;
   error: boolean;
-  query = '';
+  userIdp: string;
 
   constructor(
     private title: Title,
     public auth: AuthService,
     private api: ApiService,
-    public utils: UtilsService,
-    public fs: FilterSortService
+    public fs: FilterSortService,
+    public utils: UtilsService
   ) { }
 
   ngOnInit() {
+    this.loggedInSub = this.auth.loggedIn$.subscribe(
+      loggedIn => {
+        this.loading = true;
+        if (loggedIn) {
+          this._getProductList();
+        }
+      }
+    );
     this.title.setTitle(this.pageTitle);
-    this._getProductList();
   }
 
   private _getProductList() {
-    // Get all (admin) products
-    this.productsSub = this.api
-      .getAdminProducts$()
+    // Get products user has Ordered to
+    this.productListSub = this.api
+      .getUserProducts$(this.auth.userProfile.sub)
       .subscribe(
         res => {
           this.productList = res;
-          this.filteredProducts = res;
           this.loading = false;
         },
         err => {
@@ -53,17 +58,9 @@ export class AdminComponent implements OnInit, OnDestroy {
       );
   }
 
-  searchProducts() {
-    this.filteredProducts = this.fs.search(this.productList, this.query, '_id', 'mediumDate');
-  }
-
-  resetQuery() {
-    this.query = '';
-    this.filteredProducts = this.productList;
-  }
-
   ngOnDestroy() {
-    this.productsSub.unsubscribe();
+    this.loggedInSub.unsubscribe();
+    this.productListSub.unsubscribe();
   }
 
 }

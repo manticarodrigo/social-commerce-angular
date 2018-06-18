@@ -1,0 +1,50 @@
+<app-loading *ngIf="loading"></app-loading>
+
+<ng-template [ngIf]="utils.isLoaded(loading)">
+  <h1 class="text-center">{{ pageTitle }}</h1>
+  <!-- Product -->
+  <ng-template [ngIf]="product">
+    <!-- Product is over -->
+    <p *ngIf="productPast" class="alert alert-danger">
+      <strong>This product is over.</strong>
+    </p>
+
+    <div class="card">
+      <!-- Product tab navigation -->
+      <div class="card-header">
+        <ul class="nav nav-tabs card-header-tabs">
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              [routerLink]="[]"
+              [queryParams]="{ tab: 'details' }"
+              [ngClass]="{ 'active': utils.tabIs(tab, 'details') }">Details</a>
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              [routerLink]="[]"
+              [queryParams]="{ tab: 'order' }"
+              [ngClass]="{ 'active': utils.tabIs(tab, 'order') }">Order</a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Product detail tab -->
+      <app-product-detail
+        *ngIf="utils.tabIs(tab, 'details')"
+        [product]="product"></app-product-detail>
+
+      <!-- Product Order tab -->
+      <app-order
+        *ngIf="utils.tabIs(tab, 'order')"
+        [productId]="product._id"
+        [productPast]="productPast"></app-order>
+    </div>
+  </ng-template>
+
+  <!-- Error loading products -->
+  <p *ngIf="error" class="alert alert-danger">
+    <strong>Oops!</strong> There was an error retrieving information for this product.
+  </p>
+</ng-template>

@@ -4,10 +4,10 @@ import { CoreModule } from './../../core/core.module';
 import { RouterModule } from '@angular/router';
 import { ADMIN_ROUTES } from './admin.routes';
 import { AdminComponent } from './admin.component';
-import { CreateEventComponent } from './create-event/create-event.component';
-import { UpdateEventComponent } from './update-event/update-event.component';
-import { EventFormComponent } from './event-form/event-form.component';
-import { DeleteEventComponent } from './update-event/delete-event/delete-event.component';
+import { CreateProductComponent } from './create-product/create-product.component';
+import { UpdateProductComponent } from './update-product/update-product.component';
+import { ProductFormComponent } from './product-form/product-form.component';
+import { DeleteProductComponent } from './update-product/delete-product/delete-product.component';
 
 @NgModule({
   imports: [
@@ -17,10 +17,10 @@ import { DeleteEventComponent } from './update-event/delete-event/delete-event.c
   ],
   declarations: [
     AdminComponent,
-    CreateEventComponent,
-    UpdateEventComponent,
-    EventFormComponent,
-    DeleteEventComponent
+    CreateProductComponent,
+    UpdateProductComponent,
+    ProductFormComponent,
+    DeleteProductComponent
   ]
 })
 export class AdminModule { }

@@ -4,7 +4,7 @@ import { ApiService } from './../../core/api.service';
 import { UtilsService } from './../../core/utils.service';
 import { FilterSortService } from './../../core/filter-sort.service';
 import { Subscription } from 'rxjs';
-import { EventModel } from './../../core/models/event.model';
+import { ProductModel } from './../../core/models/product.model';
 
 @Component({
   selector: 'app-home',
@@ -12,10 +12,10 @@ import { EventModel } from './../../core/models/event.model';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  pageTitle = 'Events';
-  eventListSub: Subscription;
-  eventList: EventModel[];
-  filteredEvents: EventModel[];
+  pageTitle = 'Products';
+  productListSub: Subscription;
+  productList: ProductModel[];
+  filteredProducts: ProductModel[];
   loading: boolean;
   error: boolean;
   query: '';
@@ -29,18 +29,18 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.title.setTitle(this.pageTitle);
-    this._getEventList();
+    this._getProductList();
   }
 
-  private _getEventList() {
+  private _getProductList() {
     this.loading = true;
-    // Get future, public events
-    this.eventListSub = this.api
-      .getEvents$()
+    // Get future, public products
+    this.productListSub = this.api
+      .getProducts$()
       .subscribe(
         res => {
-          this.eventList = res;
-          this.filteredEvents = res;
+          this.productList = res;
+          this.filteredProducts = res;
           this.loading = false;
         },
         err => {
@@ -51,21 +51,21 @@ export class HomeComponent implements OnInit, OnDestroy {
       );
   }
 
-  searchEvents() {
-    this.filteredEvents = this.fs.search(this.eventList, this.query, '_id', 'mediumDate');
+  searchProducts() {
+    this.filteredProducts = this.fs.search(this.productList, this.query, '_id', 'mediumDate');
   }
 
   resetQuery() {
     this.query = '';
-    this.filteredEvents = this.eventList;
+    this.filteredProducts = this.productList;
   }
 
   get noSearchResults(): boolean {
-    return !!(!this.filteredEvents.length && this.query);
+    return !!(!this.filteredProducts.length && this.query);
   }
 
   ngOnDestroy() {
-    this.eventListSub.unsubscribe();
+    this.productListSub.unsubscribe();
   }
 
 }
