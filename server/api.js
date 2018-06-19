@@ -215,29 +215,28 @@ module.exports = function(app, config) {
   });
 
   // // PUT (edit) an existing product
-  // app.put('/api/product/:id', jwtCheck, adminCheck, (req, res) => {
-  //   Product.findById(req.params.id, (err, product) => {
-  //     if (err) {
-  //       return res.status(500).send({message: err.message});
-  //     }
-  //     if (!product) {
-  //       return res.status(400).send({message: 'Product not found.'});
-  //     }
-  //     product.title = req.body.title;
-  //     product.location = req.body.location;
-  //     product.startDatetime = req.body.startDatetime;
-  //     product.endDatetime = req.body.endDatetime;
-  //     product.viewPublic = req.body.viewPublic;
-  //     product.description = req.body.description;
+  app.put('/api/product/:id', jwtCheck, adminCheck, (req, res) => {
+    Product.findById(req.params.id, (err, product) => {
+      if (err) {
+        return res.status(500).send({message: err.message});
+      }
+      if (!product) {
+        return res.status(400).send({message: 'Product not found.'});
+      }
+      product.title = req.body.title,
+      product.price = req.body.price,
+      product.stock = req.body.stock,
+      product.photo = req.body.photo,
+      product.description = req.body.description
 
-  //     product.save(err => {
-  //       if (err) {
-  //         return res.status(500).send({message: err.message});
-  //       }
-  //       res.send(product);
-  //     });
-  //   });
-  // });
+      product.save(err => {
+        if (err) {
+          return res.status(500).send({message: err.message});
+        }
+        res.send(product);
+      });
+    });
+  });
 
   // DELETE an product and all associated RSVPs
   app.delete('/api/product/:id', jwtCheck, adminCheck, (req, res) => {
@@ -248,6 +247,14 @@ module.exports = function(app, config) {
       if (!product) {
         return res.status(400).send({message: 'Product not found.'});
       }
+
+      product.remove(err => {
+        if (err) {
+          return res.status(500).send({ message: err.message });
+        }
+        res.status(200).send({ message: 'Product successfully deleted.' });
+      });
+
     });
   });
 

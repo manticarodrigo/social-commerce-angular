@@ -28,24 +28,17 @@ const routes: Routes = [
   {
     path: 'product/:id',
     loadChildren: './pages/product/product.module#ProductModule',
-    canActivate: [
-      AuthGuard
-    ]
+    canActivate: [AuthGuard]
   },
   {
     path: 'my-company',
     component: MyRsvpsComponent,
-    canActivate: [
-      AuthGuard
-    ]
+    canActivate: [AuthGuard]
   },
   {
     path: 'admin',
     loadChildren: './pages/admin/admin.module#AdminModule',
-    canActivate: [
-      AuthGuard,
-      AdminGuard
-    ]
+    canActivate: [AuthGuard, AdminGuard]
   },
   {
     path: '**',

@@ -2,13 +2,10 @@
 
 <ng-template [ngIf]="utils.isLoaded(loading)">
   <h1 class="text-center">{{ pageTitle }}</h1>
+  <img class="img-fluid mb-2 d-block mx-auto" src="https://www.skincarisma.com/assets/product-img-placeholder-5389c2f8237c2240d3e82210f31e48218ceef89f5db462839b1cad7df64c9b90.jpg" alt="{{ pageTitle }}">
   <!-- Product -->
   <ng-template [ngIf]="product">
-    <!-- Product is over -->
-    <p *ngIf="productPast" class="alert alert-danger">
-      <strong>This product is over.</strong>
-    </p>
-
+    <p class="text-center h3">${{product.price}}</p>
     <div class="card">
       <!-- Product tab navigation -->
       <div class="card-header">

@@ -30,15 +30,23 @@
       </p>
 
       <!-- Products listing -->
-      <section class="list-group">
-        <a
+      <section class="card-deck d-inline-flex">
+        <div
           *ngFor="let product of fs.orderByDate(filteredProducts, 'startDatetime')"
           [routerLink]="['/product', product._id]"
-          class="list-group-item list-group-item-action flex-column align-items-start">
-          <div class="d-flex w-100 justify-content-between">
-            <h5 class="mb-1" [innerHTML]="product.title"></h5>
+          class="card" style="width: 18rem;">
+          <img class="card-img-top" src="https://www.skincarisma.com/assets/product-img-placeholder-5389c2f8237c2240d3e82210f31e48218ceef89f5db462839b1cad7df64c9b90.jpg" alt="Card image cap">
+          <div class="card-body">
+            <h5 class="card-title" [innerHTML]="product.title"></h5>
+            <p class="card-title h4">
+              <span>$</span>
+              <span [innerHTML]="product.price"></span>
+            </p>
+            <p class="card-text" [innerHTML]="product.description"></p>
+            <a href="#" class="btn btn-primary">Purchase</a>
           </div>
-        </a>
+        </div>
+
       </section>
     </ng-template>
 
