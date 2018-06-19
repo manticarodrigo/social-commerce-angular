@@ -4,6 +4,7 @@ import { AuthService } from './../auth/auth.service';
 import { throwError as ObservableThrowError, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { ENV } from './env.config';
+import { UserModel } from './models/user.model';
 import { ProductModel } from './models/product.model';
 import { RsvpModel } from './models/rsvp.model';
 
@@ -16,6 +17,17 @@ export class ApiService {
 
   private get _authHeader(): string {
     return `Bearer ${this.auth.accessToken}`;
+  }
+
+  // GET an user by ID (login required)
+  getUserById$(id: string): Observable<UserModel> {
+    return this.http
+      .get<UserModel>(`${ENV.BASE_API}user/${id}`, {
+        headers: new HttpHeaders().set('Authorization', this._authHeader)
+      })
+      .pipe(
+        catchError((error) => this._handleError(error))
+      );
   }
 
   // GET list of public, future products

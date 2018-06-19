@@ -6,6 +6,7 @@
 
 const jwt = require('express-jwt');
 const jwks = require('jwks-rsa');
+const User = require('./models/User');
 const Product = require('./models/Product');
 // const Rsvp = require('./models/Rsvp');
 
@@ -102,6 +103,19 @@ module.exports = function(app, config) {
     });
   });
 
+  // GET user by user ID
+  app.get('/api/user/:id', jwtCheck, (req, res) => {
+    User.findById(req.params.id, (err, user) => {
+      if (err) {
+        return res.status(500).send({message: err.message});
+      }
+      if (!product) {
+        return res.status(400).send({message: 'User not found.'});
+      }
+      res.send(user);
+    });
+  });
+
   // GET RSVPs by product ID
   // app.get('/api/product/:productId/rsvps', jwtCheck, (req, res) => {
   //   Rsvp.find({productId: req.params.productId}, (err, rsvps) => {
@@ -145,6 +159,41 @@ module.exports = function(app, config) {
   //     }
   //   });
   // });
+
+  // POST a new user
+  app.post('/api/user/new', jwtCheck, adminCheck, (req, res) => {
+    console.log(req.body)
+    const user = new User({
+      business: req.body.business,
+      name: req.body.name,
+      email: req.body.email,
+      phone: req.body.phone,
+      dni: req.body.dni,
+      ruc: req.body.ruc,
+      bankAccountNumber: req.body.bankAccountNumber,
+      logisticProvider: req.body.logisticProvider,
+      businessLogo: req.body.businessLogo,
+    });
+    user.save((err) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).send({message: err.message});
+      }
+      res.send(user);
+    });
+  });
+
+  // DELETE a user
+  app.delete('/api/user/:id', jwtCheck, adminCheck, (req, res) => {
+    User.findById(req.params.id, (err, user) => {
+      if (err) {
+        return res.status(500).send({message: err.message});
+      }
+      if (!user) {
+        return res.status(400).send({message: 'User not found.'});
+      }
+    });
+  });
 
   // POST a new product
   app.post('/api/product/new', jwtCheck, adminCheck, (req, res) => {
