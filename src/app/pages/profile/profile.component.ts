@@ -45,7 +45,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
       .getUserById$(this.auth.userProfile.sub)
       .subscribe(
         res => {
-          this.user = res;
+          console.log(res);
+          // this.user = res;
+          this.user = new UserModel("", this.auth.userProfile.name, this.auth.userProfile.email, "", "", "", "", "", "", this.auth.userProfile.sub)
           this.loading = false;
         },
         err => {

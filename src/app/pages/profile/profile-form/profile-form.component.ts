@@ -39,8 +39,9 @@ export class ProfileFormComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    console.log(this.user)
     this.formErrors = this.ef.formErrors;
-    this.isEdit = !!this.user;
+    this.isEdit = !this.user;
     this.submitBtnText = this.isEdit ? 'Update Profile' : 'Create Profile';
     // Set initial form data
     this.formProfile = this._setFormProfile();
@@ -73,19 +74,19 @@ export class ProfileFormComponent implements OnInit, OnDestroy {
   private _buildForm() {
     this.profileForm = this.fb.group({
       business: [this.formProfile.business, [
-        Validators.required,
+        // Validators.required,
       ]],
       name: [this.formProfile.name,
-        Validators.required,
+        // Validators.required,
       ],
       email: [this.formProfile.email,
-        Validators.required,
+        // Validators.required,
       ],
       phone: [this.formProfile.phone,
-        Validators.required,
+        // Validators.required,
       ],
       dni: [this.formProfile.dni,
-        Validators.required,
+        // Validators.required,
       ],
       ruc: [this.formProfile.ruc,
         null

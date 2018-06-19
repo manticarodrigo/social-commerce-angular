@@ -7,11 +7,6 @@
 
 <ng-template [ngIf]="utils.isLoaded(loading)">
   <ng-template [ngIf]="auth.userProfile">
-    <app-profile-form></app-profile-form>
-  </ng-template>
-
-  <!-- Error loading profile -->
-  <ng-template *ngIf="error" class="alert alert-danger">
-
+    <app-profile-form [user]="user"></app-profile-form>
   </ng-template>
 </ng-template>
