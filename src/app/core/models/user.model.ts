@@ -13,4 +13,18 @@ class UserModel {
   ) {}
 }
 
-export { UserModel };
+class FormUserModel {
+  constructor(
+    public business: string,
+    public name: string,
+    public email: string,
+    public phone: string,
+    public dni: string,
+    public ruc?: string,
+    public bankAccountNumber?: string,
+    public logisticProvider?: string,
+    public businessLogo?: string,
+  ) {}
+}
+
+export { UserModel, FormUserModel };

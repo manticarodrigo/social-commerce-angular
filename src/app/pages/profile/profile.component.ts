@@ -30,7 +30,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    console.log(this.auth.userProfile);
+    console.log(this.auth);
     this.loggedInSub = this.auth.loggedIn$.subscribe(
       loggedIn => {
         this.loading = true;
@@ -45,7 +45,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   private _getCurrentUser() {
     // Get user profile
     this.userProfileSub = this.api
-      .getUserById$(this.auth.userProfile._id)
+      .getUserById$(this.auth.userProfile.sub)
       .subscribe(
         res => {
           this.user = res;

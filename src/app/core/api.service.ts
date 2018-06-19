@@ -72,6 +72,39 @@ export class ApiService {
       );
   }
 
+  // POST new user
+  postUser$(user: UserModel): Observable<UserModel> {
+    return this.http
+      .post<UserModel>(`${ENV.BASE_API}user/new`, user, {
+        headers: new HttpHeaders().set('Authorization', this._authHeader)
+      })
+      .pipe(
+        catchError((error) => this._handleError(error))
+      );
+  }
+
+  // PUT existing user
+  editUser$(id: string, user: UserModel): Observable<UserModel> {
+    return this.http
+      .put<UserModel>(`${ENV.BASE_API}user/${id}`, user, {
+        headers: new HttpHeaders().set('Authorization', this._authHeader)
+      })
+      .pipe(
+        catchError((error) => this._handleError(error))
+      );
+  }
+
+  // DELETE existing user
+  deleteUser(id: string): Observable<any> {
+    return this.http
+      .delete(`${ENV.BASE_API}user/${id}`, {
+        headers: new HttpHeaders().set('Authorization', this._authHeader)
+      })
+      .pipe(
+        catchError((error) => this._handleError(error))
+      );
+  }
+
   // POST new product (admin only)
   postProduct$(product: ProductModel): Observable<ProductModel> {
     return this.http

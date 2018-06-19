@@ -1,0 +1,157 @@
+<form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+  <!-- Business Name -->
+  <div class="form-group">
+    <label for="business">Nombre de Negocio</label>
+    <input
+      id="business"
+      type="text"
+      class="form-control"
+      formControlName="business">
+    <div
+      *ngIf="formErrors.business"
+      class="small text-danger formErrors"
+      [innerHTML]="formErrors.business">
+    </div>
+  </div>
+
+  <!-- Your Name -->
+  <div class="form-group">
+    <label for="name">Nombre de Persona</label>
+    <input
+      id="name"
+      type="text"
+      class="form-control"
+      formControlName="name">
+    <div
+      *ngIf="formErrors.name"
+      class="small text-danger formErrors"
+      [innerHTML]="formErrors.name">
+    </div>
+  </div>
+
+  <!-- Email Address -->
+  <div class="form-group">
+    <label for="email">Email</label>
+    <input
+      id="email"
+      type="email"
+      class="form-control"
+      formControlName="email">
+    <div
+      *ngIf="formErrors.email"
+      class="small text-danger formErrors"
+      [innerHTML]="formErrors.email">
+    </div>
+  </div>
+
+  <!-- Telephone -->
+  <div class="form-group">
+    <label for="phone">Telefono</label>
+    <input
+      id="phone"
+      type="text"
+      class="form-control"
+      formControlName="phone">
+    <div
+      *ngIf="formErrors.phone"
+      class="small text-danger formErrors"
+      [innerHTML]="formErrors.phone">
+    </div>
+  </div>
+
+  <!-- DNI -->
+  <div class="form-group">
+    <label for="dni">DNI</label>
+    <textarea
+      id="dni"
+      type="text"
+      class="form-control"
+      formControlName="dni"></textarea>
+    <div
+      *ngIf="formErrors.dni"
+      class="small text-danger formErrors"
+      [innerHTML]="formErrors.dni">
+    </div>
+  </div>
+
+  <!-- RUC -->
+  <div class="form-group">
+    <label for="ruc">RUC</label>
+    <textarea
+      id="ruc"
+      type="text"
+      class="form-control"
+      formControlName="ruc"></textarea>
+    <div
+      *ngIf="formErrors.ruc"
+      class="small text-danger formErrors"
+      [innerHTML]="formErrors.ruc">
+    </div>
+  </div>
+
+  <!-- Bank Account Number -->
+  <div class="form-group">
+    <label for="bankAccountNumber">Cuenta de Banco</label>
+    <textarea
+      id="bankAccountNumber"
+      type="text"
+      class="form-control"
+      formControlName="bankAccountNumber"></textarea>
+    <div
+      *ngIf="formErrors.bankAccountNumber"
+      class="small text-danger formErrors"
+      [innerHTML]="formErrors.bankAccountNumber">
+    </div>
+  </div>
+
+  <!-- Logistic Provider -->
+  <div class="form-group">
+    <label for="logisticProvider">Proveedor Logistico</label>
+    <textarea
+      id="logisticProvider"
+      type="text"
+      class="form-control"
+      formControlName="logisticProvider"></textarea>
+    <div
+      *ngIf="formErrors.logisticProvider"
+      class="small text-danger formErrors"
+      [innerHTML]="formErrors.logisticProvider">
+    </div>
+  </div>
+
+  <!-- Business Logo -->
+  <div class="form-group">
+    <label for="businessLogo">Logo de Empresa</label>
+    <textarea
+      id="businessLogo"
+      type="text"
+      class="form-control"
+      formControlName="businessLogo"></textarea>
+    <div
+      *ngIf="formErrors.businessLogo"
+      class="small text-danger formErrors"
+      [innerHTML]="formErrors.businessLogo">
+    </div>
+  </div>
+
+  <!-- Submit -->
+  <div class="form-group">
+    <button
+      type="submit"
+      class="btn btn-primary"
+      [attr.disabled]="productForm.invalid || submitting ? true : null"
+      [innerText]="submitBtnText"></button>
+      <!-- https://github.com/angular/angular/issues/11271#issuecomment-289806196 -->
+    <app-submitting *ngIf="submitting"></app-submitting>
+    <a
+      *ngIf="!submitting"
+      class="btn btn-link"
+      (click)="resetForm()"
+      tabindex="0">Reset Form</a>
+
+    <!-- API submission error -->
+    <p *ngIf="error" class="mt-3 alert alert-danger">
+      <strong>Error:</strong> There was a problem submitting the profile. Please try again.
+    </p>
+  </div>
+</form>
