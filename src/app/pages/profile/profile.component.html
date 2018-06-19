@@ -1,6 +1,6 @@
 <h1 class="text-center">{{ pageTitle }}</h1>
 <p class="lead" *ngIf="auth.loggedIn && auth.userProfile">
-  Hello, <strong [innerHTML]="auth.userProfile.username"></strong>!
+  Hello, <strong [innerHTML]="auth.userProfile.nickname"></strong>!
 </p>
 
 <app-loading *ngIf="loading"></app-loading>
