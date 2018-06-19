@@ -10,9 +10,9 @@ export class UtilsService {
     return loading === false;
   }
 
-  productDates(start, end): string {
-    // Display single-day products as "Jan 7, 2018"
-    // Display multi-day products as "Aug 12, 2017 - Aug 13, 2017"
+  eventDates(start, end): string {
+    // Display single-day events as "Jan 7, 2018"
+    // Display multi-day events as "Aug 12, 2017 - Aug 13, 2017"
     const startDate = this.datePipe.transform(start, 'mediumDate');
     const endDate = this.datePipe.transform(end, 'mediumDate');
 
@@ -23,9 +23,9 @@ export class UtilsService {
     }
   }
 
-  productDatesTimes(start, end): string {
-    // Display single-day products as "1/7/2018, 5:30 PM - 7:30 PM"
-    // Display multi-day products as "8/12/2017, 8:00 PM - 8/13/2017, 10:00 AM"
+  eventDatesTimes(start, end): string {
+    // Display single-day events as "1/7/2018, 5:30 PM - 7:30 PM"
+    // Display multi-day events as "8/12/2017, 8:00 PM - 8/13/2017, 10:00 AM"
     const _shortDate = 'M/d/yyyy';
     const startDate = this.datePipe.transform(start, _shortDate);
     const startTime = this.datePipe.transform(start, 'shortTime');
@@ -39,10 +39,10 @@ export class UtilsService {
     }
   }
 
-  productPast(productEnd): boolean {
-    // Check if product has already ended
+  eventPast(eventEnd): boolean {
+    // Check if event has already ended
     const now = new Date();
-    const then = new Date(productEnd.toString());
+    const then = new Date(eventEnd.toString());
     return now >= then;
   }
 
@@ -53,7 +53,7 @@ export class UtilsService {
 
   displayCount(guests: number): string {
     // Example usage:
-    // {{displayCount(guests)}} attending this product
+    // {{displayCount(guests)}} attending this event
     const persons = guests === 1 ? ' person' : ' people';
     return guests + persons;
   }

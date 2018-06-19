@@ -8,12 +8,12 @@ import { Subscription } from 'rxjs';
 import { ProductModel } from './../../core/models/product.model';
 
 @Component({
-  selector: 'app-my-orders',
-  templateUrl: './my-orders.component.html',
-  styleUrls: ['./my-orders.component.scss']
+  selector: 'app-my-rsvps',
+  templateUrl: './my-rsvps.component.html',
+  styleUrls: ['./my-rsvps.component.scss']
 })
-export class MyOrdersComponent implements OnInit, OnDestroy {
-  pageTitle = 'My Orders';
+export class MyRsvpsComponent implements OnInit, OnDestroy {
+  pageTitle = 'My RSVPs';
   loggedInSub: Subscription;
   productListSub: Subscription;
   productList: ProductModel[];
@@ -42,7 +42,7 @@ export class MyOrdersComponent implements OnInit, OnDestroy {
   }
 
   private _getProductList() {
-    // Get products user has Ordered to
+    // Get products user has RSVPed to
     this.productListSub = this.api
       .getUserProducts$(this.auth.userProfile.sub)
       .subscribe(

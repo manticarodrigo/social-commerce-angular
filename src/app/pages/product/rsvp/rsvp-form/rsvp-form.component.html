@@ -1,4 +1,4 @@
-<form (ngSubmit)="onSubmit()" #orderForm="ngForm">
+<form (ngSubmit)="onSubmit()" #rsvpForm="ngForm">
   <!-- Name -->
   <div class="form-group">
     <label for="name">Name</label>
@@ -10,7 +10,7 @@
       minlength="3"
       maxlength="24"
       #name="ngModel"
-      [(ngModel)]="formOrder.name"
+      [(ngModel)]="formRsvp.name"
       required>
     <div
       *ngIf="name.errors && name.dirty"
@@ -36,7 +36,7 @@
           class="form-check-input"
           (change)="changeAttendanceSetGuests()"
           [value]="true"
-          [(ngModel)]="formOrder.attending"
+          [(ngModel)]="formRsvp.attending"
           required> Yes
       </label>
     </div>
@@ -49,14 +49,14 @@
           class="form-check-input"
           (change)="changeAttendanceSetGuests()"
           [value]="false"
-          [(ngModel)]="formOrder.attending"
+          [(ngModel)]="formRsvp.attending"
           required> No
       </label>
     </div>
   </div>
 
   <!-- Guests -->
-  <div *ngIf="formOrder.attending" class="formGuests form-group row">
+  <div *ngIf="formRsvp.attending" class="formGuests form-group row">
     <label for="guests" class="col-12">Additional Guests:</label>
     <input
       id="guests"
@@ -69,7 +69,7 @@
       min="0"
       max="9"
       #guests="ngModel"
-      [(ngModel)]="formOrder.guests">
+      [(ngModel)]="formRsvp.guests">
     <div
       *ngIf="guests.errors && guests.dirty"
       class="col-12 small text-danger formErrors">
@@ -88,7 +88,7 @@
       class="form-control"
       rows="2"
       maxlength="300"
-      [(ngModel)]="formOrder.comments"></textarea>
+      [(ngModel)]="formRsvp.comments"></textarea>
   </div>
 
   <!-- Submit -->
@@ -96,7 +96,7 @@
     <button
       type="submit"
       class="btn btn-primary"
-      [disabled]="!orderForm.form.valid || submitting">Submit Order</button>
+      [disabled]="!rsvpForm.form.valid || submitting">Submit RSVP</button>
     <app-submitting *ngIf="submitting"></app-submitting>
 
     <!-- API submission error -->

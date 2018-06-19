@@ -1,6 +1,6 @@
 /*
  |--------------------------------------
- | Product Model
+ | Event Model
  |--------------------------------------
  */
 
@@ -9,11 +9,10 @@ const Schema = mongoose.Schema;
 
 const productSchema = new Schema({
   title: { type: String, required: true },
-  location: { type: String, required: true },
-  startDatetime: { type: Date, required: true },
-  endDatetime: { type: Date, required: true },
+  price: { type: Number, required: true },
+  stock: { type: Number, required: true },
+  photo: String,
   description: String,
-  viewPublic: { type: Boolean, required: true }
 });
 
 module.exports = mongoose.model('Product', productSchema);

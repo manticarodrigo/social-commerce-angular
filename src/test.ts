@@ -16,7 +16,7 @@ import {
 declare var __karma__: any;
 declare var require: any;
 
-// Prproduct Karma from running prematurely.
+// Prevent Karma from running prematurely.
 __karma__.loaded = function () {};
 
 // First, initialize the Angular testing environment.

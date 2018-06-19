@@ -1,16 +1,16 @@
 <p class="lead">
-  You are deleting the "<strong [innerHTML]="product.title"></strong>" product.
+  You are deleting the "<strong [innerHTML]="event.title"></strong>" event.
 </p>
 
 <p class="text-danger">
-  Deleting this product will also remove all associated Orders. Please proceed with caution!
+  Deleting this event will also remove all associated RSVPs. Please proceed with caution!
 </p>
 
 <div class="form-group">
-  <label for="deleteProduct">Confirm product title:</label>
+  <label for="deleteEvent">Confirm event title:</label>
   <input
     type="text"
-    id="deleteProduct"
+    id="deleteEvent"
     class="form-control"
     [(ngModel)]="confirmDelete">
 </div>
@@ -19,12 +19,12 @@
 <p>
   <button
     class="btn btn-danger"
-    (click)="removeProduct()"
-    [disabled]="confirmDelete !== product.title || submitting">Delete Product</button>
+    (click)="removeEvent()"
+    [disabled]="confirmDelete !== event.title || submitting">Delete Event</button>
   <app-submitting *ngIf="submitting"></app-submitting>
 </p>
 
-<!-- Error deleting product -->
+<!-- Error deleting event -->
 <p *ngIf="error" class="alert alert-danger">
-  <strong>Oops!</strong> There was an error deleting this product. Please try again.
+  <strong>Oops!</strong> There was an error deleting this event. Please try again.
 </p>

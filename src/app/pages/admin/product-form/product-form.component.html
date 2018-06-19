@@ -15,129 +15,48 @@
     </div>
   </div>
 
-  <!-- Location -->
+  <!-- Price -->
   <div class="form-group">
-    <label for="location">Location</label>
+    <label for="price">Price</label>
     <input
-      id="location"
-      type="text"
+      id="price"
+      type="number"
       class="form-control"
-      formControlName="location"
-      [maxlength]="ef.locMax">
+      formControlName="price">
     <div
-      *ngIf="formErrors.location"
+      *ngIf="formErrors.price"
       class="small text-danger formErrors"
-      [innerHTML]="formErrors.location">
+      [innerHTML]="formErrors.price">
     </div>
   </div>
 
-  <div
-    formGroupName="datesGroup"
-    [ngClass]="{'has-danger': productForm.get('datesGroup').errors}">
-    <div class="row">
-      <!-- Start date -->
-      <div class="form-group col-sm-12 col-md-6">
-        <label for="startDate">Start Date</label>
-        <input
-          id="startDate"
-          type="text"
-          class="form-control"
-          formControlName="startDate"
-          [placeholder]="ef.dateFormat"
-          [maxlength]="ef.dateMax">
-        <div
-          *ngIf="formErrors.datesGroup.startDate"
-          class="small text-danger formErrors"
-          [innerHTML]="formErrors.datesGroup.startDate">
-        </div>
-      </div>
-
-      <!-- Start time -->
-      <div class="form-group col-sm-12 col-md-6">
-        <label for="startTime">Start Time</label>
-        <input
-          id="startTime"
-          type="text"
-          class="form-control"
-          formControlName="startTime"
-          [placeholder]="ef.timeFormat"
-          [maxlength]="ef.timeMax">
-        <div
-          *ngIf="formErrors.datesGroup.startTime"
-          class="small text-danger formErrors"
-          [innerHTML]="formErrors.datesGroup.startTime">
-        </div>
-      </div>
-    </div>
-
-    <div class="row">
-      <!-- End date -->
-      <div class="form-group col-sm-12 col-md-6">
-        <label for="endDate">End Date</label>
-        <input
-          id="endDate"
-          type="text"
-          class="form-control"
-          formControlName="endDate"
-          [placeholder]="ef.dateFormat"
-          [maxlength]="ef.dateMax">
-        <div
-          *ngIf="formErrors.datesGroup.endDate"
-          class="small text-danger formErrors"
-          [innerHTML]="formErrors.datesGroup.endDate">
-        </div>
-      </div>
-
-      <!-- End time -->
-      <div class="form-group col-sm-12 col-md-6">
-        <label for="endTime">End Time</label>
-        <input
-          id="endTime"
-          type="text"
-          class="form-control"
-          formControlName="endTime"
-          [placeholder]="ef.timeFormat"
-          [maxlength]="ef.timeMax">
-        <div
-          *ngIf="formErrors.datesGroup.endTime"
-          class="small text-danger formErrors"
-          [innerHTML]="formErrors.datesGroup.endTime">
-        </div>
-      </div>
-    </div>
-
-    <p *ngIf="productForm.get('datesGroup').errors" class="alert alert-danger small">
-      <strong>Dates/times out of range:</strong> Products cannot end before they begin. Please double-check the start and end dates and times.
-    </p>
-  </div>
-
-  <!-- View Public -->
+  <!-- Stock -->
   <div class="form-group">
-    <label class="label-inline-group">List product publicly?</label>
-    <div class="form-check form-check-inline">
-      <label class="form-check-label">
-        <input
-          id="viewPublic-yes"
-          type="radio"
-          class="form-check-input"
-          [value]="true"
-          formControlName="viewPublic"> Yes
-      </label>
-    </div>
-    <div class="form-check form-check-inline">
-      <label class="form-check-label">
-        <input
-          id="viewPublic-no"
-          type="radio"
-          class="form-check-input"
-          [value]="false"
-          formControlName="viewPublic"> No
-      </label>
-    </div>
+    <label for="stock">Stock</label>
+    <input
+      id="stock"
+      type="number"
+      class="form-control"
+      formControlName="stock">
     <div
-      *ngIf="formErrors.viewPublic"
+      *ngIf="formErrors.stock"
       class="small text-danger formErrors"
-      [innerHTML]="formErrors.viewPublic">
+      [innerHTML]="formErrors.stock">
+    </div>
+  </div>
+
+  <!-- Stock -->
+  <div class="form-group">
+    <label for="photo">Photo</label>
+    <input
+      id="photo"
+      type="file"
+      class="form-control"
+      formControlName="photo">
+    <div
+      *ngIf="formErrors.photo"
+      class="small text-danger formErrors"
+      [innerHTML]="formErrors.photo">
     </div>
   </div>
 

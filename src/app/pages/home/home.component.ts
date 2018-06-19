@@ -12,7 +12,7 @@ import { ProductModel } from './../../core/models/product.model';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  pageTitle = 'Products';
+  pageTitle = 'Shop';
   productListSub: Subscription;
   productList: ProductModel[];
   filteredProducts: ProductModel[];
@@ -29,12 +29,12 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.title.setTitle(this.pageTitle);
-    this._getProductList();
+    this._getproductList();
   }
 
-  private _getProductList() {
+  private _getproductList() {
     this.loading = true;
-    // Get future, public products
+    // Get future, public events
     this.productListSub = this.api
       .getProducts$()
       .subscribe(

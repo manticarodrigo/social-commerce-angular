@@ -1,6 +1,6 @@
 {
-  "name": "social-commerce",
-  "version": "1.0.0",
+  "name": "mean-rsvp-auth0",
+  "version": "0.2.0",
   "license": "MIT",
   "scripts": {
     "ng": "ng",

@@ -5,7 +5,7 @@ import { throwError as ObservableThrowError, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { ENV } from './env.config';
 import { ProductModel } from './models/product.model';
-import { OrderModel } from './models/order.model';
+import { RsvpModel } from './models/rsvp.model';
 
 @Injectable()
 export class ApiService {
@@ -49,10 +49,10 @@ export class ApiService {
       );
   }
 
-  // GET Orders by product ID (login required)
-  getOrdersByProductId$(productId: string): Observable<OrderModel[]> {
+  // GET RSVPs by product ID (login required)
+  getRsvpsByProductId$(productId: string): Observable<RsvpModel[]> {
     return this.http
-      .get<OrderModel[]>(`${ENV.BASE_API}product/${productId}/orders`, {
+      .get<RsvpModel[]>(`${ENV.BASE_API}product/${productId}/rsvps`, {
         headers: new HttpHeaders().set('Authorization', this._authHeader)
       })
       .pipe(
@@ -82,7 +82,7 @@ export class ApiService {
       );
   }
 
-  // DELETE existing product and all associated Orders (admin only)
+  // DELETE existing product and all associated RSVPs (admin only)
   deleteProduct$(id: string): Observable<any> {
     return this.http
       .delete(`${ENV.BASE_API}product/${id}`, {
@@ -93,7 +93,7 @@ export class ApiService {
       );
   }
 
-  // GET all products a specific user has Ordered to (login required)
+  // GET all products a specific user has RSVPed to (login required)
   getUserProducts$(userId: string): Observable<ProductModel[]> {
     return this.http
       .get<ProductModel[]>(`${ENV.BASE_API}products/${userId}`, {
@@ -104,10 +104,10 @@ export class ApiService {
       );
   }
 
-  // POST new Order (login required)
-  postOrder$(order: OrderModel): Observable<OrderModel> {
+  // POST new RSVP (login required)
+  postRsvp$(rsvp: RsvpModel): Observable<RsvpModel> {
     return this.http
-      .post<OrderModel>(`${ENV.BASE_API}order/new`, order, {
+      .post<RsvpModel>(`${ENV.BASE_API}rsvp/new`, rsvp, {
         headers: new HttpHeaders().set('Authorization', this._authHeader)
       })
       .pipe(
@@ -115,10 +115,10 @@ export class ApiService {
       );
   }
 
-  // PUT existing Order (login required)
-  editOrder$(id: string, order: OrderModel): Observable<OrderModel> {
+  // PUT existing RSVP (login required)
+  editRsvp$(id: string, rsvp: RsvpModel): Observable<RsvpModel> {
     return this.http
-      .put(`${ENV.BASE_API}order/${id}`, order, {
+      .put(`${ENV.BASE_API}rsvp/${id}`, rsvp, {
         headers: new HttpHeaders().set('Authorization', this._authHeader)
       })
       .pipe(

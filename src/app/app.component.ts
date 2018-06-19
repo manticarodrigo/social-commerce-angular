@@ -16,8 +16,10 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     fromEvent(window, 'resize')
-      .pipe(debounceTime(200))
-      .subscribe(product => this._resizeFn(product));
+      .pipe(
+        debounceTime(200)
+      )
+      .subscribe((event) => this._resizeFn(event));
 
     this._initWinHeight = window.innerHeight;
     this._resizeFn(null);

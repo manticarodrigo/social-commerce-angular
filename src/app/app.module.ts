@@ -9,14 +9,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './pages/home/home.component';
 import { CallbackComponent } from './pages/callback/callback.component';
-import { MyOrdersComponent } from './pages/my-orders/my-orders.component';
+import { MyRsvpsComponent } from './pages/my-rsvps/my-rsvps.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     CallbackComponent,
-    MyOrdersComponent
+    MyRsvpsComponent
   ],
   imports: [
     BrowserModule,

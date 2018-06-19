@@ -2,14 +2,14 @@
   <div class="header-page bg-primary">
     <a class="toggle-offcanvas bg-primary" (click)="toggleNav()"><span></span></a>
     <h1 class="header-page-siteTitle">
-      <a routerLink="/">Social Commerce</a>
+      <a routerLink="/">e-commerce</a>
     </h1>
     <div class="header-page-authStatus">
       <span *ngIf="auth.loggingIn">Logging in...</span>
       <ng-template [ngIf]="!auth.loggingIn">
         <a *ngIf="!auth.loggedIn" (click)="auth.login()">Log In</a>
         <span *ngIf="auth.loggedIn && auth.userProfile">
-          <a routerLink="/my-orders">{{ auth.userProfile.name }}</a>
+          <a routerLink="/my-company">{{ auth.userProfile.name }}</a>
           <span class="divider">|</span>
           <a (click)="auth.logout()">Log Out</a>
         </span>
@@ -23,13 +23,13 @@
         <a
           routerLink="/"
           routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }">All Products</a>
+          [routerLinkActiveOptions]="{ exact: true }">Products</a>
       </li>
       <li>
         <a
           *ngIf="auth.loggedIn"
-          routerLink="/my-products"
-          routerLinkActive="active">My Products</a>
+          routerLink="/my-company"
+          routerLinkActive="active">My Company</a>
       </li>
       <li>
         <a

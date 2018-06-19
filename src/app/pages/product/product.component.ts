@@ -68,7 +68,7 @@ export class ProductComponent implements OnInit, OnDestroy {
           this.product = res;
           this._setPageTitle(this.product.title);
           this.loading = false;
-          this.productPast = this.utils.productPast(this.product.endDatetime);
+          // this.productPast = this.utils.productPast(this.product.endDatetime);
         },
         err => {
           console.error(err);

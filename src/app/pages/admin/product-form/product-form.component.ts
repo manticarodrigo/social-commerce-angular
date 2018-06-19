@@ -5,9 +5,6 @@ import { Subscription } from 'rxjs';
 import { ApiService } from './../../../core/api.service';
 import { ProductModel, FormProductModel } from './../../../core/models/product.model';
 import { DatePipe } from '@angular/common';
-import { dateValidator } from './../../../core/forms/date.validator';
-import { dateRangeValidator } from './../../../core/forms/date-range.validator';
-import { DATE_REGEX, TIME_REGEX, stringsToDate } from './../../../core/forms/formUtils.factory';
 import { ProductFormService } from './product-form.service';
 
 @Component({
@@ -21,7 +18,6 @@ export class ProductFormComponent implements OnInit, OnDestroy {
   isEdit: boolean;
   // FormBuilder form
   productForm: FormGroup;
-  datesGroup: AbstractControl;
   // Model storing initial form values
   formProduct: FormProductModel;
   // Form validation and disabled logic
@@ -56,23 +52,15 @@ export class ProductFormComponent implements OnInit, OnDestroy {
     if (!this.isEdit) {
       // If creating a new product, create new
       // FormProductModel with default null data
-      return new FormProductModel(null, null, null, null, null, null, null);
+      return new FormProductModel(null, null, null, null, null);
     } else {
       // If editing existing product, create new
       // FormProductModel from existing data
-      // Transform datetimes:
-      // https://angular.io/api/common/DatePipe
-      // _shortDate: 1/7/2017
-      // 'shortTime': 12:05 PM
-      const _shortDate = 'M/d/yyyy';
       return new FormProductModel(
         this.product.title,
-        this.product.location,
-        this.datePipe.transform(this.product.startDatetime, _shortDate),
-        this.datePipe.transform(this.product.startDatetime, 'shortTime'),
-        this.datePipe.transform(this.product.endDatetime, _shortDate),
-        this.datePipe.transform(this.product.endDatetime, 'shortTime'),
-        this.product.viewPublic,
+        this.product.price,
+        this.product.stock,
+        this.product.photo,
         this.product.description
       );
     }
@@ -85,44 +73,19 @@ export class ProductFormComponent implements OnInit, OnDestroy {
         Validators.minLength(this.ef.textMin),
         Validators.maxLength(this.ef.titleMax)
       ]],
-      location: [this.formProduct.location, [
-        Validators.required,
-        Validators.minLength(this.ef.textMin),
-        Validators.maxLength(this.ef.locMax)
-      ]],
-      viewPublic: [this.formProduct.viewPublic,
-        Validators.required
+      price: [this.formProduct.price,
+        Validators.min(0)
+      ],
+      stock: [this.formProduct.stock,
+        Validators.min(1)
+      ],
+      photo: [this.formProduct.photo,
+        null
       ],
       description: [this.formProduct.description,
         Validators.maxLength(this.ef.descMax)
       ],
-      datesGroup: this.fb.group({
-        startDate: [this.formProduct.startDate, [
-          Validators.required,
-          Validators.maxLength(this.ef.dateMax),
-          Validators.pattern(DATE_REGEX),
-          dateValidator()
-        ]],
-        startTime: [this.formProduct.startTime, [
-          Validators.required,
-          Validators.maxLength(this.ef.timeMax),
-          Validators.pattern(TIME_REGEX)
-        ]],
-        endDate: [this.formProduct.endDate, [
-          Validators.required,
-          Validators.maxLength(this.ef.dateMax),
-          Validators.pattern(DATE_REGEX),
-          dateValidator()
-        ]],
-        endTime: [this.formProduct.endTime, [
-          Validators.required,
-          Validators.maxLength(this.ef.timeMax),
-          Validators.pattern(TIME_REGEX)
-        ]]
-      }, { validator: dateRangeValidator })
     });
-    // Set local property to productForm datesGroup control
-    this.datesGroup = this.productForm.get('datesGroup');
 
     // Subscribe to form value changes
     this.formChangeSub = this.productForm
@@ -141,7 +104,6 @@ export class ProductFormComponent implements OnInit, OnDestroy {
         }
       };
       _markDirty(this.productForm);
-      _markDirty(this.datesGroup);
     }
 
     this._onValueChanged();
@@ -163,39 +125,19 @@ export class ProductFormComponent implements OnInit, OnDestroy {
     // Check validation and set errors
     for (const field in this.formErrors) {
       if (this.formErrors.hasOwnProperty(field)) {
-        if (field !== 'datesGroup') {
-          // Set errors for fields not inside datesGroup
-          // Clear previous error message (if any)
-          this.formErrors[field] = '';
-          _setErrMsgs(this.productForm.get(field), this.formErrors, field);
-        } else {
-          // Set errors for fields inside datesGroup
-          const datesGroupErrors = this.formErrors['datesGroup'];
-          for (const dateField in datesGroupErrors) {
-            if (datesGroupErrors.hasOwnProperty(dateField)) {
-              // Clear previous error message (if any)
-              datesGroupErrors[dateField] = '';
-              _setErrMsgs(this.datesGroup.get(dateField), datesGroupErrors, dateField);
-            }
-          }
-        }
+        // Clear previous error message (if any)
+        this.formErrors[field] = '';
+        _setErrMsgs(this.productForm.get(field), this.formErrors, field);
       }
     }
   }
 
   private _getSubmitObj() {
-    const startDate = this.datesGroup.get('startDate').value;
-    const startTime = this.datesGroup.get('startTime').value;
-    const endDate = this.datesGroup.get('endDate').value;
-    const endTime = this.datesGroup.get('endTime').value;
-    // Convert form startDate/startTime and endDate/endTime
-    // to JS dates and populate a new ProductModel for submission
     return new ProductModel(
       this.productForm.get('title').value,
-      this.productForm.get('location').value,
-      stringsToDate(startDate, startTime),
-      stringsToDate(endDate, endTime),
-      this.productForm.get('viewPublic').value,
+      this.productForm.get('price').value,
+      this.productForm.get('stock').value,
+      this.productForm.get('photo').value,
       this.productForm.get('description').value,
       this.product ? this.product._id : null
     );
