@@ -19,4 +19,4 @@ const userSchema = new Schema({
 	businessLogo: String,
 });
 
-module.exports = mongoose.model('User', productSchema);
+module.exports = mongoose.model('User', userSchema);
