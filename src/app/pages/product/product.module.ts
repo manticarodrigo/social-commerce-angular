@@ -17,8 +17,6 @@ import { ProductDetailComponent } from './product-detail/product-detail.componen
   declarations: [
     ProductComponent,
     ProductDetailComponent
-    // RsvpComponent,
-    // RsvpFormComponent
   ]
 })
 export class ProductModule { }

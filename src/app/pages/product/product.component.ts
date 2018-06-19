@@ -23,7 +23,6 @@ export class ProductComponent implements OnInit, OnDestroy {
   loading: boolean;
   error: boolean;
   tab: string;
-  productPast: boolean;
 
   constructor(
     private route: ActivatedRoute,
@@ -68,7 +67,6 @@ export class ProductComponent implements OnInit, OnDestroy {
           this.product = res;
           this._setPageTitle(this.product.title);
           this.loading = false;
-          // this.productPast = this.utils.productPast(this.product.endDatetime);
         },
         err => {
           console.error(err);
@@ -85,8 +83,8 @@ export class ProductComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.routeSub.unsubscribe();
-    this.tabSub.unsubscribe();
+    // this.routeSub.unsubscribe();
+    // this.tabSub.unsubscribe();
     this.productSub.unsubscribe();
   }
 
