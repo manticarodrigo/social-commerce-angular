@@ -9,6 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './pages/home/home.component';
 import { ProfileComponent } from './pages/profile/profile.component';
+import { ProfileFormComponent } from './pages/profile/profile-form/profile-form.component';
 import { CallbackComponent } from './pages/callback/callback.component';
 import { MyRsvpsComponent } from './pages/my-rsvps/my-rsvps.component';
 
@@ -17,6 +18,7 @@ import { MyRsvpsComponent } from './pages/my-rsvps/my-rsvps.component';
     AppComponent,
     HomeComponent,
     ProfileComponent,
+    ProfileFormComponent,
     CallbackComponent,
     MyRsvpsComponent
   ],

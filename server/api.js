@@ -105,11 +105,12 @@ module.exports = function(app, config) {
 
   // GET user by user ID
   app.get('/api/user/:id', jwtCheck, (req, res) => {
-    User.findById(req.params.id, (err, user) => {
+    User.find({'auth0_id': req.params.id}, (err, user) => {
       if (err) {
+        console.log(err.message);
         return res.status(500).send({message: err.message});
       }
-      if (!product) {
+      if (!user) {
         return res.status(400).send({message: 'User not found.'});
       }
       res.send(user);

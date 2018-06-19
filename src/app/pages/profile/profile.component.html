@@ -1,18 +1,17 @@
 <h1 class="text-center">{{ pageTitle }}</h1>
 <p class="lead" *ngIf="auth.loggedIn && auth.userProfile">
-  Hello, <strong [innerHTML]="auth.userProfile.name"></strong>!
+  Hello, <strong [innerHTML]="auth.userProfile.username"></strong>!
 </p>
 
 <app-loading *ngIf="loading"></app-loading>
 
 <ng-template [ngIf]="utils.isLoaded(loading)">
-  <ng-template [ngIf]="profile">
-    
-    
+  <ng-template [ngIf]="auth.userProfile">
+    <app-profile-form></app-profile-form>
   </ng-template>
 
   <!-- Error loading profile -->
   <ng-template *ngIf="error" class="alert alert-danger">
-    
+
   </ng-template>
 </ng-template>

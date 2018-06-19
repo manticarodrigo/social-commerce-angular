@@ -25,20 +25,17 @@ export class ProfileComponent implements OnInit, OnDestroy {
     private title: Title,
     public auth: AuthService,
     private api: ApiService,
-    public fs: FilterSortService,
     public utils: UtilsService
-  ) { }
+  ) {}
 
   ngOnInit() {
     console.log(this.auth);
-    this.loggedInSub = this.auth.loggedIn$.subscribe(
-      loggedIn => {
-        this.loading = true;
-        if (loggedIn) {
-          this._getCurrentUser();
-        }
+    this.loggedInSub = this.auth.loggedIn$.subscribe(loggedIn => {
+      this.loading = true;
+      if (loggedIn) {
+        this._getCurrentUser();
       }
-    );
+    });
     this.title.setTitle(this.pageTitle);
   }
 
@@ -63,5 +60,4 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.loggedInSub.unsubscribe();
     this.userProfileSub.unsubscribe();
   }
-
 }

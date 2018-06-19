@@ -1,4 +1,4 @@
-<form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
   <!-- Business Name -->
   <div class="form-group">
     <label for="business">Nombre de Negocio</label>
@@ -139,7 +139,7 @@
     <button
       type="submit"
       class="btn btn-primary"
-      [attr.disabled]="productForm.invalid || submitting ? true : null"
+      [attr.disabled]="profileForm.invalid || submitting ? true : null"
       [innerText]="submitBtnText"></button>
       <!-- https://github.com/angular/angular/issues/11271#issuecomment-289806196 -->
     <app-submitting *ngIf="submitting"></app-submitting>
